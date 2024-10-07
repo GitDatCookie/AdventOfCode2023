@@ -1,0 +1,15 @@
+﻿<div class="grid-container" style="height: 80vh">
+    @foreach (var button in buttonList)
+    {
+        <button class="grid-button @(button.IsSelected ? "selected-button" : "")"
+                style="
+                grid-column: @(button.X + 1) / span @button.Width;
+                grid-row: @(button.Y + 1) / span @button.Height;
+                background-color: @button.BackgroundColour;
+                color: @button.TextColour;
+                font-size: @(button.TextSize)px;"
+                @onclick="() => OnDayClick(button)">
+            @button.Day
+        </button>
+    }
+</div>
