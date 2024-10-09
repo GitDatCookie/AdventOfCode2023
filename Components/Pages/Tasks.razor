@@ -1,9 +1,9 @@
-﻿@page "/task"
+﻿@page "/task/{day:int}"
+@using AdventOfCode2023Blazor.Components.Layout
 
 <h3>Welcome to my Advent of Code Blazor extravaganza.</h3>
 <p>Please pick a day:</p>
 
-<AdventCalendar OnDaySelected="HandleDaySelected"></AdventCalendar>
 
 @if (selectedTask != null)
 {

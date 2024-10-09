@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
-namespace AdventOfCode2023Blazor.Components
+namespace AdventOfCode2023Blazor.Components.Layout
 {
     public partial class AdventCalendar
     {
+        [Inject]
+        private NavigationManager Navigation { get; set; }
+
         [Parameter]
         public EventCallback<int> OnDaySelected { get; set; }
         private List<ButtonModel> buttonList = new();
@@ -26,8 +30,7 @@ namespace AdventOfCode2023Blazor.Components
         .OrderBy(r => Random.Shared.Next())
         .ToList();
 
-
-
+        
         protected override void OnInitialized()
         {
             buttonList = GenerateButtons();
@@ -40,14 +43,15 @@ namespace AdventOfCode2023Blazor.Components
                 btn.IsSelected = false;
             }
             button.IsSelected = true;
-            OnDaySelected.InvokeAsync(button.Day);
+            Navigation.NavigateTo($"/task/{button.Day}");
+                
         }
 
         private List<ButtonModel> GenerateButtons()
         {
             var buttons = new List<ButtonModel>();
             var random = new Random();
-            var grid = new bool[7, 7];
+            var grid = new bool[5, 10];
 
             var buttonTypes = new List<(int width, int height)>
         {
@@ -57,11 +61,12 @@ namespace AdventOfCode2023Blazor.Components
             (1, 1)
         };
 
-            var buttonCounts = new List<int> { 5, 5, 4, 11 };
+            var buttonCounts = new List<int> { 5, 5, 5, 10 };
             int dayCount = 0;
             buttons.AddRange(Enumerable.Range(0, buttonCounts.Count)
                 .SelectMany(type => Enumerable.Range(0, buttonCounts[type])
-                    .Select(count => {
+                    .Select(count =>
+                    {
                         var buttonModel = new ButtonModel
                         {
                             Width = buttonTypes[type].width,
@@ -89,8 +94,8 @@ namespace AdventOfCode2023Blazor.Components
 
             while (!spaceAvailable)
             {
-                button.X = random.Next(0, 7 - button.Width + 1);
-                button.Y = random.Next(0, 7 - button.Height + 1);
+                button.X = random.Next(0, 5 - button.Width + 1);
+                button.Y = random.Next(0, 10 - button.Height + 1);
 
                 spaceAvailable = IsSpaceAvailable(grid, button);
             }

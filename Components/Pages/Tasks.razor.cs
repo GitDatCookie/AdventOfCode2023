@@ -1,9 +1,19 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace AdventOfCode2023Blazor.Components.Pages
 {
     public partial class Tasks
     {
+        [Parameter]
+        public int day { get; set; }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            HandleDaySelected(day);
+        }
+
         private int? selectedTask;
         const int maxFileSize = 5000 * 1024;
         public string ErrorMessage { get; set; } = "";
@@ -35,6 +45,7 @@ namespace AdventOfCode2023Blazor.Components.Pages
         {
             selectedTask = day;
             Console.WriteLine($"Selected day: {day}");
+            StateHasChanged();
         }
     }
 }

@@ -1,23 +1,24 @@
 ﻿@inherits LayoutComponentBase
+<body>
+    <div class="page">
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+        <AdventCalendar></AdventCalendar>
+        <main>
+            <div class="top-row px-4">
+                <a href="https://github.com/GitDatCookie/AdventOfCode2023" style="color:green">AoC 2023 - Github Repo</a>
+                <input type="checkbox" title="Navigation menu" class="navgrid-toggler" />
+            </div>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+</body>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
