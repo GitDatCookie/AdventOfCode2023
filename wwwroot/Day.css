@@ -1,0 +1,17 @@
+﻿.star {
+    color: #ffff66;
+    font-style: normal;
+    text-shadow: 0 0 5px #ffff66;
+}
+
+em {
+    font-style: normal;
+    text-shadow: 0 0 5px #ffffff;
+}
+
+pre, code {
+    color: #00ff21;
+    display: inline-block; /* Ensure the code block is treated as inline */
+    border: 1px solid #808080;
+    border-radius: 5%;
+}

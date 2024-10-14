@@ -2,8 +2,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: #1e1a1a;
-    color: #ffffff;
+    flex-grow: 0;
+    max-width: calc(100%-500px)
 }
 
 main {
@@ -15,9 +15,7 @@ main {
     width: 100%;
 }
 
-
 .top-row {
-    background-color: #1e1a1a;
     border-bottom: 1px solid #008000;
     justify-content: space-between;
     height: 3.5rem;
@@ -54,6 +52,7 @@ main {
     .page {
         flex-direction: column;
     }
+
 
     .top-row {
         position: sticky;
@@ -118,4 +117,12 @@ main {
 
 .navgrid-toggler:checked ~ .navigation-grid {
     display:block;
+}
+
+.bottom-row {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background-color:pink;
 }

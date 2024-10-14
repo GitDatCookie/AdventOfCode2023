@@ -5,7 +5,7 @@ namespace AdventOfCode2023Blazor.Components.Layout
 {
     public partial class AdventCalendar
     {
-        [Inject] 
+        [Inject]
         private NavigationManager? navigationManager { get; set; }
 
         private List<ButtonModel> buttonList = new();
@@ -42,7 +42,7 @@ namespace AdventOfCode2023Blazor.Components.Layout
             }
             button.IsSelected = true;
 
-            navigationManager.NavigateTo($"/task/{button.Day}");
+            navigationManager?.NavigateTo($"/day{button.Day}");
         }
 
         private List<ButtonModel> GenerateButtons()
@@ -67,7 +67,7 @@ namespace AdventOfCode2023Blazor.Components.Layout
 
             try
             {
-                var task = Task.Run(async () =>
+                var task = Task.Run(() => 
                 {
                     buttons.AddRange(Enumerable.Range(0, buttonCounts.Count)
                     .SelectMany(type => Enumerable.Range(0, buttonCounts[type])
