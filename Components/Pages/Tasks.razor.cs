@@ -6,7 +6,7 @@ namespace AdventOfCode2023Blazor.Components.Pages
     public partial class Tasks
     {
         [Parameter]
-        public int day { get; set; }
+        public int day { get; set; } = 0;
 
         protected override void OnParametersSet()
         {

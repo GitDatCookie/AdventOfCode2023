@@ -1,8 +1,3 @@
-body {
-    background-color: #1e1a1a;
-    color: #ffffff;
-}
-
 .page {
     position: relative;
     display: flex;
@@ -121,6 +116,6 @@ main {
     display:none;
 }
 
-navigation-grid.visible{
+.navgrid-toggler:checked ~ .navigation-grid {
     display:block;
 }

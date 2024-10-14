@@ -5,11 +5,9 @@ namespace AdventOfCode2023Blazor.Components.Layout
 {
     public partial class AdventCalendar
     {
-        [Inject]
-        private NavigationManager Navigation { get; set; }
+        [Inject] 
+        private NavigationManager? navigationManager { get; set; }
 
-        [Parameter]
-        public EventCallback<int> OnDaySelected { get; set; }
         private List<ButtonModel> buttonList = new();
         private Random random = new();
         private class ButtonModel
@@ -43,49 +41,71 @@ namespace AdventOfCode2023Blazor.Components.Layout
                 btn.IsSelected = false;
             }
             button.IsSelected = true;
-            Navigation.NavigateTo($"/task/{button.Day}");
-                
+
+            navigationManager.NavigateTo($"/task/{button.Day}");
         }
 
         private List<ButtonModel> GenerateButtons()
         {
             var buttons = new List<ButtonModel>();
-            var random = new Random();
-            var grid = new bool[5, 10];
 
-            var buttonTypes = new List<(int width, int height)>
-        {
-            (2, 2),
-            (1, 2),
-            (2, 1),
-            (1, 1)
-        };
-
-            var buttonCounts = new List<int> { 5, 5, 5, 10 };
-            int dayCount = 0;
-            buttons.AddRange(Enumerable.Range(0, buttonCounts.Count)
-                .SelectMany(type => Enumerable.Range(0, buttonCounts[type])
-                    .Select(count =>
-                    {
-                        var buttonModel = new ButtonModel
-                        {
-                            Width = buttonTypes[type].width,
-                            Height = buttonTypes[type].height,
-                            Day = adventCalendarDays[dayCount++],
-                            BackgroundColour = Random.Shared.Next(2) == 0 ? "black" : "grey",
-                            TextSize = type == 0 ? 60 : type == 1 || type == 2 ? 40 : 30
-                        };
-                        buttonModel.TextColour = buttonModel.BackgroundColour == "black" ? "white" : "black";
-                        return buttonModel;
-                    }))
-                .ToList()
-                .Select(button =>
+                buttons = new();
+                var grid = new bool[5, 10];
+                var buttonTypes = new List<(int width, int height)>
                 {
-                    PlaceButton(buttons, grid, button);
-                    return button;
-                }));
+                    (2, 2),
+                    (1, 2),
+                    (2, 1),
+                    (1, 1)
+                };
 
-            return buttons;
+                var buttonCounts = new List<int> { 5, 5, 5, 10 };
+                int dayCount = 0;
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            try
+            {
+                var task = Task.Run(async () =>
+                {
+                    buttons.AddRange(Enumerable.Range(0, buttonCounts.Count)
+                    .SelectMany(type => Enumerable.Range(0, buttonCounts[type])
+                        .Select(count =>
+                        {
+                            var buttonModel = new ButtonModel
+                            {
+                                Width = buttonTypes[type].width,
+                                Height = buttonTypes[type].height,
+                                Day = adventCalendarDays[dayCount++],
+                                BackgroundColour = Random.Shared.Next(2) == 0 ? "black" : "grey",
+                                TextSize = type == 0 ? 60 : type == 1 || type == 2 ? 40 : 30
+                            };
+                            buttonModel.TextColour = buttonModel.BackgroundColour == "black" ? "white" : "black";
+                            return buttonModel;
+                        }))
+                    .ToList()
+                    .Select(button =>
+                    {
+                        PlaceButton(buttons, grid, button);
+                        return button;
+                    }));
+
+                    return buttons;
+                }, token);
+
+                if (!task.Wait(3, token))
+                {
+                    throw new TimeoutException("Generating buttons took too long.");
+                }
+
+                return task.Result;
+            }
+            catch (TimeoutException) 
+            {
+                return GenerateButtons();
+            }
+
         }
 
         private void PlaceButton(List<ButtonModel> buttons, bool[,] grid, ButtonModel button)
