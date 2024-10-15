@@ -1,3 +1,28 @@
-﻿<h3>TaskUpload</h3>
+﻿
+@if (@Day != null)
+{
+    <div class="task-details" >
+        <div class="upload-section">
+            <label for="taskUpload" class="upload-label">
+                Upload input as .txt file:
+            </label>
+            <label class="custom-file-upload" for="taskUpload">
+                File Upload
+            </label>
+            <InputFile hidden id="taskUpload" accept=".txt" OnChange="@(async e => await FileUpload(e, @Day))" />
 
+                <button class="upload-button" @onclick="CreateTextbox">
+                Get Result
+            </button>
+        </div>
+    </div>
+    @if(FileName != null)
+    {
+        <label>@FileName</label>
+    }
 
+    @if (ShowTextbox)
+    {
+        <textarea class="result-text-area" readonly >@FileContent</textarea>
+    }
+}

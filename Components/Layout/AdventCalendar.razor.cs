@@ -78,10 +78,10 @@ namespace AdventOfCode2023Blazor.Components.Layout
                                 Width = buttonTypes[type].width,
                                 Height = buttonTypes[type].height,
                                 Day = adventCalendarDays[dayCount++],
-                                BackgroundColour = Random.Shared.Next(2) == 0 ? "black" : "grey",
+                                BackgroundColour = Random.Shared.Next(2) == 0 ? "#1e1a1a" : "green",
                                 TextSize = type == 0 ? 60 : type == 1 || type == 2 ? 40 : 30
                             };
-                            buttonModel.TextColour = buttonModel.BackgroundColour == "black" ? "white" : "black";
+                            buttonModel.TextColour = "white";
                             return buttonModel;
                         }))
                     .ToList()

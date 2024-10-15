@@ -11,7 +11,7 @@ em {
 
 pre, code {
     color: #00ff21;
-    display: inline-block; /* Ensure the code block is treated as inline */
+    display: inline-block; 
     border: 1px solid #808080;
     border-radius: 5%;
 }
