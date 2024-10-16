@@ -1,4 +1,5 @@
 using AdventOfCode2023Blazor.Components;
+using AdventOfCode2023Blazor.Components.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

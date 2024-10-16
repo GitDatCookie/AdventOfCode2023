@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
+using AdventOfCode2023Blazor.Components.Services;
+using AdventOfCode2023Blazor.Components.Models;
 
 namespace AdventOfCode2023Blazor.Components.Layout
 {
@@ -7,23 +9,27 @@ namespace AdventOfCode2023Blazor.Components.Layout
     {
         [Parameter]
         public int Day { get; set; } = 0;
+        [Parameter]
+        public bool FirstPart { get; set; }
+        [Parameter]
+        public int ComponentId { get; set; }
 
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-        }
+        private string UploadID => $"taskUplaod-{ComponentId}";
 
-        private int? selectedTask;
         const int maxFileSize = 5000 * 1024;
         public string ErrorMessage { get; set; } = "";
         public string? FileContent { get; set; }
         public string? FileName { get; set; }
-        public bool ShowTextbox { get; set; } = false;
+        public string? Result { get; set; }
 
-        public void CreateTextbox()
+
+        public void ShowAnswerTextBox()
         {
-            ShowTextbox = !ShowTextbox;
+            TaskModel taskModel = new(FileContent, Day, FirstPart);
+            TaskSolvingService taskSolver = new TaskSolvingService(taskModel);
+            Result = taskSolver.GetSolution(taskModel);
         }
+
         public async Task FileUpload(InputFileChangeEventArgs e, int Day)
         {
             var browserFile = e.File;
